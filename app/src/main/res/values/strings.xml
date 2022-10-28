@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">UCB Radio</string>
+    <string name="live_broadcast">UCB Radio</string>
+    <string name="text">Señal en vivo</string>
+    <string name="no_stream">No se puede reproducir!</string>
+    <string name="api_key">16fe44aaa6f35d5755a08eb62f371994</string>
+    <string name="developed_by">Desarrollado por</string>
+    <string name="powered_by">Potenciado por</string>
+    <string name="siguenos">Siguenos en nuestras redes sociales</string>
+    <string name="facebook">https://www.facebook.com/ucbradio</string>
+    <string name="web">https://radio.lpz.ucb.edu.bo</string>
+    <string name="mensaje">Estoy escuchando UCB Radio a través de la app para Android</string>
+</resources>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:alpha="1">
+
+    <ImageView
+        android:id="@+id/backgroundImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:scaleType="centerCrop"
+        android:src="@drawable/back"/>
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/toolbar"
+        app:titleTextColor="@color/white"
+        android:background="@android:color/transparent"
+        app:menu="@menu/menu"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/albumCardView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toTopOf="@+id/playButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardBackgroundColor="@color/black"
+        app:cardCornerRadius="15dp"
+        android:layout_marginBottom="80dp">
+
+        <ImageView
+            android:id="@+id/albumArtImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/ucbradio"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/ahoraSuenaTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/albumCardView"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        android:text="Ahora suena"/>
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/equalizerImageView"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:tint="@color/yellow"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:id="@+id/volBajoImageView"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/playButton"
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/ic_volume_min"
+        android:layout_marginLeft="54dp"
+        app:tint="@color/yellow"
+        android:layout_marginBottom="40dp"/>
+
+    <SeekBar
+        android:id="@+id/volumenSeekBar"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/playButton"
+        android:layout_marginBottom="40dp"/>
+
+    <ImageView
+        android:id="@+id/volAltoImageView"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/playButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_volume_max"
+        app:tint="@color/yellow"
+        android:layout_marginRight="54dp"
+        android:layout_marginBottom="40dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/pauseButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/equalizerImageView"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/pause"
+        app:backgroundTint="@color/white"
+        android:layout_marginLeft="80dp"
+        android:layout_marginBottom="60dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/playButton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/equalizerImageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/play"
+        app:backgroundTint="@color/yellow"
+        android:layout_marginBottom="30dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/stopButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/equalizerImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/stop"
+        app:backgroundTint="@color/white"
+        android:layout_marginRight="80dp"
+        android:layout_marginBottom="60dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
