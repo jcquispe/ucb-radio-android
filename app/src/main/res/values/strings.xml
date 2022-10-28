@@ -10,4 +10,14 @@
     <string name="facebook">https://www.facebook.com/ucbradio</string>
     <string name="web">https://radio.lpz.ucb.edu.bo</string>
     <string name="mensaje">Estoy escuchando UCB Radio a través de la app para Android</string>
+    <string name="gestion">2022</string>
+
+    <string name="inactiveTitle">Lo sentimos mucho</string>
+    <string name="inactiveMessage">La aplicación no está activa, contacte al administrador</string>
+    <string name="updateTitle">¡Actualización!</string>
+    <string name="updateMessage">Tenemos una nueva versión de la app</string>
+    <string name="irGooglePlay">Ir a la Tienda</string>
+
+    <string name="muvlinWeb">https://www.muvlin.com</string>
+    <string name="consultoradasWeb">https://www.consultoradas.com</string>
 </resources>

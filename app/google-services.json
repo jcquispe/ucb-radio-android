@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "591727050843",
+    "firebase_url": "https://muvlin-apps.firebaseio.com",
+    "project_id": "muvlin-apps",
+    "storage_bucket": "muvlin-apps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591727050843:android:a566cb121185dec5337f7e",
+        "android_client_info": {
+          "package_name": "com.muvlin.lapazfm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "591727050843-lmrsnn382sah61hnl2l8cb7t63meumf0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAagbWJaxlxC2R9fgVxHiFYWj9IhbjGEac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "591727050843-lmrsnn382sah61hnl2l8cb7t63meumf0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "591727050843-051g0bto1mqjgk0telros15plgoje3gc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.muvlin.lapazfm"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591727050843:android:1f17c7bc5b8b4b88337f7e",
+        "android_client_info": {
+          "package_name": "com.muvlin.ucbradio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "591727050843-lmrsnn382sah61hnl2l8cb7t63meumf0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAagbWJaxlxC2R9fgVxHiFYWj9IhbjGEac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "591727050843-lmrsnn382sah61hnl2l8cb7t63meumf0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "591727050843-051g0bto1mqjgk0telros15plgoje3gc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.muvlin.lapazfm"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

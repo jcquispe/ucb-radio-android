@@ -33,16 +33,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.muvlin.ucbradio.client.APIClient;
-import com.muvlin.ucbradio.client.APIInterface;
 import com.muvlin.ucbradio.client.AlbumClient;
 import com.muvlin.ucbradio.client.AlbumInterface;
 import com.muvlin.ucbradio.client.ShoucastInterface;
 import com.muvlin.ucbradio.client.pojo.MetadataResponse;
-import com.muvlin.ucbradio.client.pojo.RadioResponse;
 import com.muvlin.ucbradio.player.PlaybackStatus;
 import com.muvlin.ucbradio.player.RadioManager;
-import com.muvlin.ucbradio.player.RadioService;
+import com.muvlin.ucbradio.util.Settings;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -54,6 +51,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import io.reactivex.android.BuildConfig;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -68,7 +66,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MainActivity extends AppCompatActivity implements ServiceCallbacks {
-    APIInterface apiInterface;
+    private Settings settings = Settings.getSettings("", "", "", false, false);
+
     AlbumInterface albumInterface;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -82,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements ServiceCallbacks 
 
     LottieAnimationView equalizadorImageView;
 
-    String streamURL = "http://stream.consultoradas.com/8186/stream";
     int refresh = 20000;
     String api_key;
     private String oldData = "";
@@ -133,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements ServiceCallbacks 
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                radioManager.playOrPause(streamURL, MainActivity.this);
+                radioManager.playOrPause(settings.getUrl(), MainActivity.this);
                 playAction();
             }
         });
@@ -141,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements ServiceCallbacks 
         pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                radioManager.playOrPause(streamURL, MainActivity.this);
+                radioManager.playOrPause(settings.getUrl(), MainActivity.this);
                 pauseAction();
             }
         });
@@ -235,68 +233,41 @@ public class MainActivity extends AppCompatActivity implements ServiceCallbacks 
         }
     }
 
-    private void recuperarData() {
-        if (isNetworkAvailable()) {
-            compositeDisposable.add(apiInterface.getData()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<RadioResponse>() {
-                        @Override
-                        public void accept(RadioResponse response) throws Exception {
-                            //MOSTRAR DATA
-                            if (response.android.active) {
-                                if (response.android.force) {
-                                    final String urlApp = response.android.redirect;
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                                    builder.setTitle(response.update.title);
-                                    builder.setMessage(response.update.message);
-                                    builder.setCancelable(false);
-                                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Intent viewIntent = new Intent("android.intent.action.VIEW",
-                                                    Uri.parse(urlApp));
-                                            startActivity(viewIntent);
-                                        }
-                                    });
-                                    AlertDialog dialog = builder.create();
-                                    dialog.show();
-                                }
-                                streamURL = response.url;
-                                refresh = response.data.refresh;
-                            } else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                                builder.setTitle(response.inactive.title);
-                                builder.setMessage(response.inactive.message);
-                                builder.setCancelable(false);
-                                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        finish();
-                                    }
-                                });
-
-                                AlertDialog dialog = builder.create();
-                                dialog.show();
-
-                                Handler handler = new Handler();
-                                handler.postDelayed(new Runnable() {
-                                    public void run() {
-                                        finish();
-                                    }
-                                }, response.inactive.time);
-                            }
-                        }
-                    }));
+    private void isActive() {
+        String appVersion = BuildConfig.VERSION_NAME;
+        if (settings.getActive()) {
+            if (settings.getForce() && !appVersion.equals(settings.getVersion())) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle(getResources().getString(R.string.updateTitle));
+                builder.setMessage(getResources().getString(R.string.updateMessage));
+                builder.setCancelable(false);
+                builder.setPositiveButton(getResources().getString(R.string.irGooglePlay), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(settings.getRedirect()));
+                        startActivity(viewIntent);
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.yellow));
+            }
         }
         else {
-            Toast.makeText(this, "No tiene conexión a internet", Toast.LENGTH_LONG).show();
-            play.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.gray)));
-            pause.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.gray)));
-            stop.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.gray)));
-            play.setEnabled(false);
-            pause.setEnabled(false);
-            stop.setEnabled(false);
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle(getResources().getString(R.string.inactiveTitle));
+            builder.setMessage(getResources().getString(R.string.inactiveMessage));
+            builder.setCancelable(false);
+            builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finishAndRemoveTask();
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.yellow));
         }
     }
 
@@ -325,10 +296,7 @@ public class MainActivity extends AppCompatActivity implements ServiceCallbacks 
         if (radioManager.getService() != null) {
             returningToStoppedApp(radioManager.getService().getStatus());
         }
-
-        Retrofit retrofit = APIClient.getInstance();
-        apiInterface = retrofit.create(APIInterface.class);
-        recuperarData();
+        isActive();
 
         Retrofit retrofit1 = AlbumClient.getInstance();
         albumInterface = retrofit1.create(AlbumInterface.class);
