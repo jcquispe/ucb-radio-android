@@ -51,7 +51,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import io.reactivex.android.BuildConfig;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -66,7 +65,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MainActivity extends AppCompatActivity implements ServiceCallbacks {
-    private Settings settings = Settings.getSettings("", "", "", false, false);
+    private Settings settings = Settings.getSettings("", "", "", true, false);
 
     AlbumInterface albumInterface;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
