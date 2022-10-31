@@ -15,21 +15,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.muvlin.ucbradio.client.APIClient;
-import com.muvlin.ucbradio.client.APIInterface;
-import com.muvlin.ucbradio.client.pojo.InfoResponse;
+import com.muvlin.ucbradio.util.Settings;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AboutActivity extends AppCompatActivity {
-
-    APIInterface apiInterface;
-    CompositeDisposable compositeDisposable = new CompositeDisposable();
-    String muvlinWeb, consultoradasWeb;
+    private Settings settings = Settings.getSettings("", "", "", false, false);
 
     ImageView muvlin, consultoradas, lapaz;
     TextView copyright, version;
@@ -71,7 +63,7 @@ public class AboutActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
-                String shareBody = getResources().getString(R.string.mensaje);
+                String shareBody = getResources().getString(R.string.mensaje) + " " + settings.getRedirect();
                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getResources().getString(R.string.app_name));
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
                 startActivity(Intent.createChooser(sharingIntent, "Compartir en"));
@@ -81,7 +73,7 @@ public class AboutActivity extends AppCompatActivity {
         muvlin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(muvlinWeb));
+                Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(getResources().getString(R.string.muvlinWeb)));
                 startActivity(viewIntent);
             }
         });
@@ -89,7 +81,7 @@ public class AboutActivity extends AppCompatActivity {
         consultoradas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(consultoradasWeb));
+                Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(getResources().getString(R.string.consultoradasWeb)));
                 startActivity(viewIntent);
             }
         });
@@ -116,23 +108,17 @@ public class AboutActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Retrofit retrofit = APIClient.getInstance();
-        apiInterface = retrofit.create(APIInterface.class);
-        recuperarData();
+        setCopyright();
     }
 
-    private void recuperarData() {
-        compositeDisposable.add(apiInterface.getInfo()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<InfoResponse>() {
-                    @Override
-                    public void accept(InfoResponse response) throws Exception {
-                        //MOSTRAR DATA
-                        muvlinWeb = response.muvlin;
-                        consultoradasWeb = response.consultoradas;
-                        copyright.setText(response.ucb + " Reservados todos los derechos");
-                    }
-                }));
+    private void setCopyright() {
+        String thisYear = new SimpleDateFormat("yyyy").format(new Date());
+        if (thisYear.equals(getResources().getString(R.string.gestion))) {
+            copyright.setText(thisYear + " Reservados todos los derechos");
+        }
+        else {
+            copyright.setText(getResources().getString(R.string.gestion) + " - " + thisYear + " Reservados todos los derechos");
+        }
+
     }
 }
