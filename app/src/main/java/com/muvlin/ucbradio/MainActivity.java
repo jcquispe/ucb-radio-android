@@ -65,7 +65,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MainActivity extends AppCompatActivity implements ServiceCallbacks {
-    private Settings settings = Settings.getSettings("", "", "", true, false);
+    private Settings settings = Settings.getSettings("", "", "", false);
 
     AlbumInterface albumInterface;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -232,38 +232,20 @@ public class MainActivity extends AppCompatActivity implements ServiceCallbacks 
         }
     }
 
-    private void isActive() {
+    private void isUpdated() {
         String appVersion = BuildConfig.VERSION_NAME;
-        if (settings.getActive()) {
-            if (settings.getForce() && !appVersion.equals(settings.getVersion())) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle(getResources().getString(R.string.updateTitle));
-                builder.setMessage(getResources().getString(R.string.updateMessage));
-                builder.setCancelable(false);
-                builder.setPositiveButton(getResources().getString(R.string.irGooglePlay), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(settings.getRedirect()));
-                        startActivity(viewIntent);
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.yellow));
-            }
-        }
-        else {
+        if (settings.getForce() && !appVersion.equals(settings.getVersion())) {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle(getResources().getString(R.string.inactiveTitle));
-            builder.setMessage(getResources().getString(R.string.inactiveMessage));
+            builder.setTitle(getResources().getString(R.string.updateTitle));
+            builder.setMessage(getResources().getString(R.string.updateMessage));
             builder.setCancelable(false);
-            builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.irGooglePlay), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    finishAndRemoveTask();
+                    Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(settings.getRedirect()));
+                    startActivity(viewIntent);
                 }
             });
-
             AlertDialog dialog = builder.create();
             dialog.show();
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.yellow));
@@ -291,11 +273,11 @@ public class MainActivity extends AppCompatActivity implements ServiceCallbacks 
     @Override
     protected void onResume() {
         super.onResume();
+        isUpdated();
         radioManager.bind();
         if (radioManager.getService() != null) {
             returningToStoppedApp(radioManager.getService().getStatus());
         }
-        isActive();
 
         Retrofit retrofit1 = AlbumClient.getInstance();
         albumInterface = retrofit1.create(AlbumInterface.class);

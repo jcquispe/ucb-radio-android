@@ -63,7 +63,6 @@ public class SplashActivity extends AppCompatActivity {
                                 mFirebaseRemoteConfig.getString(Settings.REDIRECT),
                                 mFirebaseRemoteConfig.getString(Settings.VERSION),
                                 mFirebaseRemoteConfig.getString(Settings.URL),
-                                mFirebaseRemoteConfig.getBoolean(Settings.ACTIVE),
                                 mFirebaseRemoteConfig.getBoolean(Settings.FORCE));
                         Log.e("URL", sett.getUrl());
                     } else {

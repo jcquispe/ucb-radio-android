@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AboutActivity extends AppCompatActivity {
-    private Settings settings = Settings.getSettings("", "", "", false, false);
+    private Settings settings = Settings.getSettings("", "", "", false);
 
     ImageView muvlin, consultoradas, lapaz;
     TextView copyright, version;
