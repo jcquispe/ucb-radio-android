@@ -10,8 +10,8 @@ android {
         applicationId "com.muvlin.ucbradio"
         minSdk 21
         targetSdk 32
-        versionCode 4
-        versionName "1.1"
+        versionCode 5
+        versionName "1.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -19,16 +19,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-    flavorDimensions "default"
-    productFlavors {
-        flavor {
-            minSdkVersion 21
-            targetSdkVersion 32
-            applicationId 'com.muvlin.ucbradio'
-            versionCode 4
-            versionName '1.1'
         }
     }
 }
